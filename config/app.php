@@ -16,7 +16,9 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Trip My Trip'),
+
+    'google_map_key' => env('GOOGLE_MAPS_API_KEY', null),
 
     /*
     |--------------------------------------------------------------------------
