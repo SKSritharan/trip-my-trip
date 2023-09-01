@@ -9,10 +9,10 @@ class PlacesPageController extends Controller
 {
     public function index()
     {
-        $places = Place::all();
+        $places = Place::paginate(10);
         $markers = $this->setMarkers($places);
 
-        return view('landing-page.pages.places', compact('markers'));
+        return view('landing-page.pages.places', compact('markers', 'places'));
     }
 
     private function setMarkers($places)
@@ -22,7 +22,12 @@ class PlacesPageController extends Controller
                 'title' => $place->name,
                 'lat' => $place->lat,
                 'long' => $place->long,
-                'info' => "<div style='float:left'><img src='https://i.stack.imgur.com/g672i.png'></div><div style='float:right; padding: 10px;'><b>Title</b><br/>123 Address<br/> City,Country</div>",
+                'info' => "<div style='float:left'>
+<img src='https://i.stack.imgur.com/g672i.png'></div>
+<div style='float:right; padding: 10px;'>
+<b>Title</b>
+<br/>123 Address<br/> City,Country
+</div>",
             ];
         })->all();
     }

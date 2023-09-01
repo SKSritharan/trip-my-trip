@@ -10,15 +10,17 @@ class PlaceCard extends Component
 {
     public $src;
     public $name;
+    public $description;
     public $count;
     public $link;
     /**
      * Create a new component instance.
      */
-    public function __construct($src, $name, $count, $link)
+    public function __construct($src, $name, $description, $count, $link)
     {
         $this->src = $src;
         $this->name = $name;
+        $this->description = $description;
         $this->count = $count;
         $this->link = $link;
     }
