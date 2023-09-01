@@ -61,7 +61,7 @@
                 </li>
                 <li>
                     <x-nav-home-link href="#">
-                        {{ __('Hotels') }}
+                        {{ __('Guides') }}
                     </x-nav-home-link>
                 </li>
                 <li>

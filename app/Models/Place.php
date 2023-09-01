@@ -10,6 +10,11 @@ class Place extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'lat' ,'long'
+        'name', 'description', 'lat', 'long', 'img_url'
     ];
+
+    public function vehicle()
+    {
+        return $this->hasMany(Vehicle::class);
+    }
 }
