@@ -27,11 +27,15 @@
                     <tr class="bg-gray-600 dark:text-white text-gray-800">
                         <th class="px-4 py-2 w-20">No.</th>
                         <th class="px-4 py-2">Name</th>
-                        <th class="px-4 py-2">Owner</th>
+                        @if($user_role !== 'guide')
+                            <th class="px-4 py-2">Owner</th>
+                        @endif
                         <th class="px-4 py-2">Model</th>
                         <th class="px-4 py-2">Passenger Seats</th>
                         <th class="px-4 py-2">Vehicle Number</th>
-                        <th class="px-4 py-2">Place</th>
+                        <th class="px-4 py-2">Pickup Point</th>
+                        <th class="px-4 py-2">Payment Type</th>
+                        <th class="px-4 py-2">Amount</th>
                         <th class="px-4 py-2">Image</th>
                         <th class="px-4 py-2">Action</th>
                     </tr>
@@ -41,11 +45,15 @@
                         <tr class="dark:text-white text-gray-700">
                             <td class="border px-4 py-2">{{ $loop->iteration }}</td>
                             <td class="border px-4 py-2">{{ $vehicle->name }}</td>
-                            <td class="border px-4 py-2">{{ $vehicle->owner }}</td>
+                            @if($user_role !== 'guide')
+                                <td class="border px-4 py-2">{{ $vehicle->owner->name }}</td>
+                            @endif
                             <td class="border px-4 py-2">{{ $vehicle->model }}</td>
                             <td class="border px-4 py-2">{{ $vehicle->passenger_seats_available }}</td>
                             <td class="border px-4 py-2">{{ $vehicle->vehicle_number }}</td>
-                            <td class="border px-4 py-2">{{ $vehicle->place->name }}</td>
+                            <td class="border px-4 py-2">{{ $vehicle->pickup_point }}</td>
+                            <td class="border px-4 py-2">{{ $vehicle->payment_type }}</td>
+                            <td class="border px-4 py-2">{{ $vehicle->amount }}</td>
                             <td class="border px-4 py-2"><img src="{{ asset('storage/'.$vehicle->img_url) }}" alt="{{ $vehicle->name }} Image"></td>
                             <td class="border px-4 py-2">
                                 <button wire:click="edit({{ $vehicle->id }})"
