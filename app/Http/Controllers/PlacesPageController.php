@@ -9,7 +9,7 @@ class PlacesPageController extends Controller
 {
     public function index()
     {
-        $places = Place::paginate(10);
+        $places = Place::paginate(8);
         $markers = $this->setMarkers($places);
 
         return view('landing-page.pages.places', compact('markers', 'places'));

@@ -9,11 +9,22 @@ class Vehicle extends Model
 {
     use HasFactory;
 
-    protected $fillable =["name", "owner", "model", "passenger_seats_available", "vehicle_number", "place_id", "img_url"];
+    protected $fillable = [
+        'name',
+        'description',
+        'owner_id',
+        'model',
+        'passenger_seats_available',
+        'vehicle_number',
+        'payment_type',
+        'amount',
+        'pickup_point',
+        'img_url',
+    ];
 
-    public function place()
+    public function owner()
     {
-        return $this->belongsTo(Place::class);
+        return $this->belongsTo(User::class);
     }
 
     public function booking()

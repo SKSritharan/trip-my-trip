@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire\Vehicle;
 
-use App\Models\Place;
+use App\Models\User;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -14,14 +15,30 @@ class Index extends Component
     use WithPagination;
     use WithFileUploads;
 
-    public $name, $owner, $model, $passenger_seats_available, $vehicle_number, $place_id, $img_url, $image, $vehicle_id;
+    public $name, $description, $owner_id, $model, $passenger_seats_available, $vehicle_number, $pickup_point, $img_url, $image, $vehicle_id, $payment_type, $amount;
     public $isModalOpen = 0;
+
+    public $user_role;
+
+    public function mount()
+    {
+        $this->user_role = Auth::user()->role->slug;
+
+        if ($this->user_role === 'guide') {
+            $this->owner_id = Auth::user()->id;
+        }
+    }
 
     public function render()
     {
-        $places = Place::all();
-        $vehicles = Vehicle::paginate(10);
-        return view('livewire.vehicle.index', compact('vehicles', 'places'));
+        $users = User::where('role_id', 2)->get();
+        if ($this->user_role === 'guide') {
+            $vehicles = Vehicle::where('owner_id', Auth::user()->id)->paginate(10);
+        } else {
+            $vehicles = Vehicle::paginate(10);
+        }
+
+        return view('livewire.vehicle.index', compact('vehicles', 'users'));
     }
 
     public function create()
@@ -43,11 +60,18 @@ class Index extends Component
     private function resetCreateForm()
     {
         $this->name = '';
-        $this->owner = '';
+        $this->description = '';
+        if ($this->user_role === 'guide') {
+            $this->owner_id = Auth::user()->id;
+        } else {
+            $this->owner_id = null;
+        }
         $this->model = '';
         $this->passenger_seats_available = '';
         $this->vehicle_number = '';
-        $this->place_id = null;
+        $this->payment_type = null;
+        $this->amount = 0.00;
+        $this->pickup_point = '';
         $this->img_url = null;
     }
 
@@ -59,21 +83,27 @@ class Index extends Component
         }
         $this->validate([
             'name' => 'required',
-            'owner' => 'required',
+            'description' => 'sometimes',
+            'owner_id' => 'required|exists:users,id',
             'model' => 'required',
             'passenger_seats_available' => 'required',
-            'vehicle_number' => 'required',
-            'place_id' => 'required|exists:places,id',
+            'vehicle_number' => ['required', 'regex:/^[A-Z]{2,3}\s?\d{4}$/i'],
+            'payment_type' => 'required',
+            'amount' => 'required|numeric',
+            'pickup_point' => 'required',
             'img_url' => 'required',
         ]);
 
         Vehicle::updateOrCreate(['id' => $this->vehicle_id], [
             'name' => $this->name,
-            'owner' => $this->owner,
+            'description' => $this->description,
+            'owner_id' => $this->owner_id,
             'model' => $this->model,
             'passenger_seats_available' => $this->passenger_seats_available,
             'vehicle_number' => $this->vehicle_number,
-            'place_id' => $this->place_id,
+            'payment_type' => $this->payment_type,
+            'amount' => $this->amount,
+            'pickup_point' => $this->pickup_point,
             'img_url' => $this->img_url,
         ]);
         session()->flash('message', $this->vehicle_id ? 'Vehicle updated.' : 'Vehicle created.');
@@ -86,11 +116,14 @@ class Index extends Component
         $vehicle = Vehicle::findOrFail($id);
         $this->vehicle_id = $id;
         $this->name = $vehicle->name;
-        $this->owner = $vehicle->owner;
+        $this->description = $vehicle->description;
+        $this->owner_id = $vehicle->owner_id;
         $this->model = $vehicle->model;
         $this->passenger_seats_available = $vehicle->passenger_seats_available;
         $this->vehicle_number = $vehicle->vehicle_number;
-        $this->place_id = $vehicle->place_id;
+        $this->pickup_point = $vehicle->pickup_point;
+        $this->payment_type = $vehicle->payment_type;
+        $this->amount = $vehicle->amount;
         $this->img_url = $vehicle->img_url;
 
         $this->openModalPopover();
