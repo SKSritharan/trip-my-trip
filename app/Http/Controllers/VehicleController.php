@@ -13,6 +13,9 @@ class VehicleController extends Controller
     public function index()
     {
         $vehicles = Vehicle::paginate(8);
+//        foreach ($vehicles as $vehicle){
+//            dd($vehicle->img_url);
+//        }
         return view('landing-page.pages.vehicle.index',compact('vehicles'));
     }
 

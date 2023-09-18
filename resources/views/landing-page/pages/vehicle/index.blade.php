@@ -16,21 +16,22 @@
     <div class="untree_co-section">
         <div class="container">
             <div class="row">
-                @foreach($vehicles as $vehicle)
-                    <div class="col-6 col-md-6 col-lg-3">
-                        <div class="media-1">
-                            <a href="#" class="d-block mb-3">
-                                <img src="{{asset('storage/'.$vehicle->img_url)}}" alt="Image" class="img-fluid">
-                            </a>
-                            <div class="d-flex">
-                                <div>
-                                    <h3><a href="#">{{$vehicle->name}}</a></h3>
-                                    <p>{{$vehicle->description}}</p>
-                                </div>
-                            </div>
-                        </div>
+                @if ($vehicles->isEmpty())
+                    <div class="col-12 text-center">
+                        <p>No travel vehicles added yet.</p>
                     </div>
-                @endforeach
+                @else
+                    @foreach($vehicles as $vehicle)
+                        <x-vehicle-card
+                            :image="$vehicle->img_url"
+                            :name="$vehicle->name"
+                            :description="$vehicle->description"
+                            :amount="$vehicle->amount"
+                            :payment="$vehicle->payment_type"
+                            :ratings="4.2"
+                        />
+                    @endforeach
+                @endif
             </div>
             <div class="mt-4">
                 {{ $vehicles->links('landing-page.partials.pagination') }}

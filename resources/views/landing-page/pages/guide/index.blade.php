@@ -16,21 +16,27 @@
     <div class="untree_co-section">
         <div class="container">
             <div class="row">
-                @foreach($guides as $guide)
-                    <div class="col-6 col-md-6 col-lg-3">
-                        <div class="media-1">
-                            <a href="#" class="d-block mb-3">
-                                <img src="{{asset('storage/'.$guide->img_url)}}" alt="Image" class="img-fluid">
-                            </a>
-                            <div class="d-flex">
-                                <div>
-                                    <h3><a href="#">{{$guide->name}}</a></h3>
-                                    <p>{{$guide->description}}</p>
+                @if ($guides->isEmpty())
+                    <div class="col-12 text-center">
+                        <p>No tourist guides added yet.</p>
+                    </div>
+                @else
+                    @foreach($guides as $guide)
+                        <div class="col-6 col-md-6 col-lg-3">
+                            <div class="media-1">
+                                <a href="#" class="d-block mb-3">
+                                    <img src="{{asset('storage/'.$guide->img_url)}}" alt="Image" class="img-fluid">
+                                </a>
+                                <div class="d-flex">
+                                    <div>
+                                        <h3><a href="#">{{$guide->name}}</a></h3>
+                                        <p>{{$guide->description}}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
             </div>
             <div class="mt-4">
                 {{ $guides->links('landing-page.partials.pagination') }}
