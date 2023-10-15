@@ -26,7 +26,7 @@
                             {{ __('Places') }}
                         </x-nav-link>
                     @endif
-                    @if($user_role === 'admin' || $user_role === 'guide')
+                    @if($user_role === 'admin' || $user_role === 'vehicle')
                         <x-nav-link href="{{ route('manage-vehicles') }}"
                                     :active="request()->routeIs('manage-vehicles')">
                             {{ __('Vehicles') }}

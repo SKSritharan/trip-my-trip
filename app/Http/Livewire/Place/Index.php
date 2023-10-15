@@ -4,21 +4,23 @@ namespace App\Http\Livewire\Place;
 
 use App\Models\Place;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use WireUi\Traits\Actions;
 
 class Index extends Component
 {
-    use WithPagination;
-    use WithFileUploads;
+    use WithPagination, WithFileUploads, Actions;
 
     public $name, $description, $lat, $long, $img_url, $image, $place_id;
     public $isModalOpen = 0;
+    public $search = '';
 
     public function render()
     {
-        $places = Place::paginate(10);
+        $places = Place::search($this->search)->paginate(10);
         return view('livewire.place.index', compact('places'));
     }
 
@@ -49,10 +51,13 @@ class Index extends Component
 
     public function store()
     {
-        if ($this->img_url !== null && !str_contains($this->img_url, 'places')) {
-            $this->img_url = Storage::putFile('public/places', $this->img_url);
-            $this->img_url = str_replace('public/', '', $this->img_url);
-        }
+        $fileLocation = Storage::putFile(
+            path: 'public/places',
+            file: $this->img_url
+        );
+
+        $relativePath = Str::replaceFirst('public/', 'storage/', $fileLocation);
+
         $this->validate([
             'name' => 'required',
             'description' => 'required',
@@ -66,9 +71,14 @@ class Index extends Component
             'description' => $this->description,
             'lat' => $this->lat,
             'long' => $this->long,
-            'img_url' => $this->img_url,
+            'img_url' => $relativePath,
         ]);
-        session()->flash('message', $this->place_id ? 'Place updated.' : 'Place created.');
+
+        $this->notification()->success(
+            $title = $this->place_id ? 'Place updated.' : 'Place created.',
+            $description = $this->place_id ? 'Place updated successfully.' : 'Place created successfully.'
+        );
+
         $this->closeModalPopover();
         $this->resetCreateForm();
     }
@@ -86,9 +96,30 @@ class Index extends Component
         $this->openModalPopover();
     }
 
+    public function deleteConfirm($id)
+    {
+        $this->dialog()->confirm([
+            'title' => 'Are you sure?',
+            'description' => 'Do you want to delete this place?',
+            'icon' => 'question',
+            'accept' => [
+                'label' => 'Yes, Delete',
+                'method' => 'delete',
+                'params' => $id,
+            ],
+            'reject' => [
+                'label' => 'No, cancel',
+                'method' => 'cancel',
+            ],
+        ]);
+    }
+
     public function delete($id)
     {
         Place::find($id)->delete();
-        session()->flash('message', 'Place deleted.');
+        $this->notification()->success(
+            $title ='Place deleted.',
+            $description = 'Place deleted successfully.'
+        );
     }
 }

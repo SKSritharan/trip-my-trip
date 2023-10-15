@@ -22,14 +22,19 @@
             </div>
 
             <div class="mt-4">
-                <x-label for="role_id" value="{{ __('Role') }}"/>
-                <select id="role_id" name="role_id" :value="old('role_id')" required
-                        class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                    <option value="">Choose a role</option>
-                    <option value=4>User</option>
-                    <option value=2>Tourist Guide</option>
-                    <option value=3>Vehicle Owner</option>
-                </select>
+                <x-wireui-native-select
+                    label="Role"
+                    :options="[
+        ['name' => 'User',  'id' => 4],
+        ['name' => 'Tourist Guide', 'id' => 2],
+        ['name' => 'Vehicle Owner',   'id' => 3],
+    ]"
+                    option-label="name"
+                    name="role_id"
+                    option-value="id"
+                    placeholder="select a role"
+                    wire:model="role_id"
+                />
             </div>
 
             <div class="mt-4">

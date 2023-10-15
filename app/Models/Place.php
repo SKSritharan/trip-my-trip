@@ -12,4 +12,12 @@ class Place extends Model
     protected $fillable = [
         'name', 'description', 'lat', 'long', 'img_url'
     ];
+
+    public function scopeSearch($query, $searchTerm)
+    {
+        if ($searchTerm) {
+            return $query->where('name', 'LIKE', '%' . $searchTerm . '%')->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+        }
+        return $query;
+    }
 }

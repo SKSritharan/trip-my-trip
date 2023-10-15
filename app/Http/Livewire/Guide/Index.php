@@ -5,10 +5,11 @@ namespace App\Http\Livewire\Guide;
 use App\Models\Guide;
 use Livewire\Component;
 use Livewire\WithPagination;
+use WireUi\Traits\Actions;
 
 class Index extends Component
 {
-    use WithPagination;
+    use WithPagination, Actions;
 
     public $name,$gender, $known_languages, $experience_years, $contact_no, $address, $payment, $guide_id;
     public $isModalOpen = 0;
@@ -67,7 +68,12 @@ class Index extends Component
             'address' => $this->address,
             'payment' => $this->payment,
         ]);
-        session()->flash('message', $this->guide_id ? 'Guide updated.' : 'Guide created.');
+
+        $this->notification()->success(
+            $title = $this->guide_id ? 'Guide updated.' : 'Guide created.',
+            $description = $this->guide_id ? 'Guide updated successfully.' : 'Guide created successfully.'
+        );
+
         $this->closeModalPopover();
         $this->resetCreateForm();
     }
@@ -87,9 +93,30 @@ class Index extends Component
         $this->openModalPopover();
     }
 
+    public function deleteConfirm($id)
+    {
+        $this->dialog()->confirm([
+            'title' => 'Are you sure?',
+            'description' => 'Do you want to delete this guide?',
+            'icon' => 'question',
+            'accept' => [
+                'label' => 'Yes, Delete',
+                'method' => 'delete',
+                'params' => $id,
+            ],
+            'reject' => [
+                'label' => 'No, cancel',
+                'method' => 'cancel',
+            ],
+        ]);
+    }
+
     public function delete($id)
     {
         Guide::find($id)->delete();
-        session()->flash('message', 'Guide deleted.');
+        $this->notification()->success(
+            $title ='Guide deleted.',
+            $description = 'Guide deleted successfully.'
+        );
     }
 }

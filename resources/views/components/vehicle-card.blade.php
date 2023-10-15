@@ -1,7 +1,7 @@
 <div class="col-6 col-md-6 col-lg-3">
     <div class="media-1">
         <a href="#" class="d-block mb-3">
-            <img src="{{ asset('storage/'.$img_url) }}" alt="Image" class="img-fluid">
+            <img src="{{ asset($img_url) }}" alt="Image" class="img-fluid">
         </a>
         <div class="d-flex">
             <div>

@@ -6,25 +6,27 @@ use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use WireUi\Traits\Actions;
 
 class Index extends Component
 {
-    use WithPagination;
-    use WithFileUploads;
+    use WithPagination, WithFileUploads, Actions;
 
     public $name, $description, $owner_id, $model, $passenger_seats_available, $vehicle_number, $pickup_point, $img_url, $image, $vehicle_id, $payment_type, $amount;
     public $isModalOpen = 0;
 
     public $user_role;
+    public $search = '';
 
     public function mount()
     {
         $this->user_role = Auth::user()->role->slug;
 
-        if ($this->user_role === 'guide') {
+        if ($this->user_role === 'vehicle') {
             $this->owner_id = Auth::user()->id;
         }
     }
@@ -32,10 +34,10 @@ class Index extends Component
     public function render()
     {
         $users = User::where('role_id', 2)->get();
-        if ($this->user_role === 'guide') {
-            $vehicles = Vehicle::where('owner_id', Auth::user()->id)->paginate(10);
+        if ($this->user_role === 'vehicle') {
+            $vehicles = Vehicle::where('owner_id', Auth::user()->id)->search($this->search)->paginate(10);
         } else {
-            $vehicles = Vehicle::paginate(10);
+            $vehicles = Vehicle::search($this->search)->paginate(10);
         }
 
         return view('livewire.vehicle.index', compact('vehicles', 'users'));
@@ -77,10 +79,13 @@ class Index extends Component
 
     public function store()
     {
-        if ($this->img_url !== null && !str_contains($this->img_url, 'vehicles')) {
-            $this->img_url = Storage::putFile('public/vehicles', $this->img_url);
-            $this->img_url = str_replace('public/', '', $this->img_url);
-        }
+        $fileLocation = Storage::putFile(
+            path: 'public/vehicles',
+            file: $this->img_url
+        );
+
+        $relativePath = Str::replaceFirst('public/', 'storage/', $fileLocation);
+
         $this->validate([
             'name' => 'required',
             'description' => 'sometimes',
@@ -106,7 +111,12 @@ class Index extends Component
             'pickup_point' => $this->pickup_point,
             'img_url' => $this->img_url,
         ]);
-        session()->flash('message', $this->vehicle_id ? 'Vehicle updated.' : 'Vehicle created.');
+
+        $this->notification()->success(
+            $title = $this->vehicle_id ? 'Vehicle updated.' : 'Vehicle created.',
+            $description = $this->vehicle_id ? 'Vehicle updated successfully.' : 'Vehicle created successfully.'
+        );
+
         $this->closeModalPopover();
         $this->resetCreateForm();
     }
@@ -129,9 +139,30 @@ class Index extends Component
         $this->openModalPopover();
     }
 
+    public function deleteConfirm($id)
+    {
+        $this->dialog()->confirm([
+            'title' => 'Are you sure?',
+            'description' => 'Do you want to delete this vehicle?',
+            'icon' => 'question',
+            'accept' => [
+                'label' => 'Yes, Delete',
+                'method' => 'delete',
+                'params' => $id,
+            ],
+            'reject' => [
+                'label' => 'No, cancel',
+                'method' => 'cancel',
+            ],
+        ]);
+    }
+
     public function delete($id)
     {
         Vehicle::find($id)->delete();
-        session()->flash('message', 'Vehicle deleted.');
+        $this->notification()->success(
+            $title ='Vehicle deleted.',
+            $description = 'Vehicle deleted successfully.'
+        );
     }
 }

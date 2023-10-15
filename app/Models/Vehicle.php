@@ -22,6 +22,17 @@ class Vehicle extends Model
         'img_url',
     ];
 
+    public function scopeSearch($query, $searchTerm)
+    {
+        if ($searchTerm) {
+            return $query->where('name', 'LIKE', '%'.$searchTerm.'%')
+                ->orWhere('description', 'LIKE', '%'.$searchTerm.'%')
+                ->orWhere('model', 'LIKE', '%'.$searchTerm.'%')
+                ->orWhere('vehicle_number', 'LIKE', '%'.$searchTerm.'%');
+        }
+        return $query;
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class);
