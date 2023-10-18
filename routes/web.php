@@ -14,17 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [\App\Http\Controllers\LandingPageController::class, 'index'])->name('home');
-//Route::get('/places', [\App\Http\Controllers\PlacesPageController::class, 'index'])->name('places');
 Route::get('/places', \App\Http\Livewire\Place\View::class)->name('places');
+Route::get('/tourist-guide', \App\Http\Livewire\Guide\View::class)->name('guides');
+Route::get('/vehicle', \App\Http\Livewire\Vehicle\View::class)->name('vehicles');
 
 
-Route::controller(\App\Http\Controllers\GuideController::class)->prefix('tourist-guide')->group(function () {
-    Route::get('/', 'index')->name('guides');
-});
-
-Route::controller(\App\Http\Controllers\VehicleController::class)->prefix('vehicle')->group(function () {
-    Route::get('/', 'index')->name('vehicles');
-});
+//Route::get('/places', [\App\Http\Controllers\PlacesPageController::class, 'index'])->name('places');
+//Route::controller(\App\Http\Controllers\GuideController::class)->prefix('tourist-guide')->group(function () {
+//    Route::get('/', 'index')->name('guides');
+//});
+//Route::controller(\App\Http\Controllers\VehicleController::class)->prefix('vehicle')->group(function () {
+//    Route::get('/', 'index')->name('vehicles');
+//});
 
 Route::get('/about', function () {
     return view('landing-page.pages.about');
