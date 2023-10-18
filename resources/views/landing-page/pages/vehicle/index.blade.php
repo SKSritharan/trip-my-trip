@@ -23,6 +23,7 @@
                 @else
                     @foreach($vehicles as $vehicle)
                         <x-vehicle-card
+                            :vehicleId="$vehicle->id"
                             :image="$vehicle->img_url"
                             :name="$vehicle->name"
                             :description="$vehicle->description"

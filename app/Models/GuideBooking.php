@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class VehicleBooking extends Model
+class GuideBooking extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'vehicle_id', 'start_date', 'end_date', 'status'];
+    protected $fillable = ['user_id', 'guide_id', 'start_date', 'end_date', 'status'];
 
     public function scopeSearch($query, $searchTerm)
     {
         if ($searchTerm) {
             return $query->where(function ($query) use ($searchTerm) {
-                $query->WhereHas('vehicle', function ($query) use ($searchTerm) {
-                    $query->where('name', 'LIKE', '%' . $searchTerm . '%');
-                })
+                $query->WhereHas('guide', function ($query) use ($searchTerm) {
+                        $query->where('name', 'LIKE', '%' . $searchTerm . '%');
+                    })
                     ->orWhereHas('user', function ($query) use ($searchTerm) {
                         $query->where('name', 'LIKE', '%' . $searchTerm . '%');
                     });
@@ -30,8 +30,8 @@ class VehicleBooking extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function vehicle()
+    public function guide()
     {
-        return $this->belongsTo(Vehicle::class);
+        return $this->belongsTo(Guide::class);
     }
 }

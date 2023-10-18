@@ -22,6 +22,13 @@
         }
     </style>
 
+    <wireui:scripts />
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Styles -->
+    @livewireStyles
+
     <link rel="stylesheet" href="{{asset('./landing-page/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('./landing-page/css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset('./landing-page/css/owl.theme.default.min.css')}}">
@@ -40,6 +47,8 @@
 
 <x-nav-bar/>
 
+<x-wireui-dialog z-index="z-50" blur="md" align="center" />
+<x-wireui-notifications position="top-right"/>
 <main>
     {{$slot}}
 </main>
@@ -52,6 +61,8 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+
+@livewireScripts
 
 @include('landing-page.partials.scripts')
 

@@ -60,14 +60,24 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function vehicleBooking()
+    public function vehicleBookings()
     {
         return $this->hasMany(VehicleBooking::class);
     }
 
+    public function guideBookings()
+    {
+        return $this->hasMany(GuideBooking::class);
+    }
+
     public function vehicle()
     {
-        return $this->hasMany(Vehicle::class);
+        return $this->hasOne(Vehicle::class, 'owner_id');
+    }
+
+    public function guide()
+    {
+        return $this->hasOne(Guide::class, 'user_id');
     }
 
     public function role()

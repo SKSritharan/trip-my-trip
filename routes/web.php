@@ -42,4 +42,7 @@ Route::middleware([
     Route::get('manage-places', \App\Http\Livewire\Place\Index::class)->name('manage-places');
     Route::get('manage-vehicles', \App\Http\Livewire\Vehicle\Index::class)->name('manage-vehicles');
     Route::get('manage-guides', \App\Http\Livewire\Guide\Index::class)->name('manage-guides');
+//
+//    Route::get('billing-portal', \App\Http\Livewire\Payment\Index::class)->name('billing');
+    Route::get('bookings', \App\Http\Livewire\Bookings\Index::class)->name('bookings');
 });

@@ -1,4 +1,4 @@
-<div class="col-6 col-md-6 col-lg-3">
+<div class="col-6 col-md-6 col-lg-3 mb-4">
     <div class="media-1">
         <a href="#" class="d-block mb-3">
             <img src="{{ asset($img_url) }}" alt="Image" class="img-fluid">
@@ -9,6 +9,8 @@
                 <h4>Rs.{{ number_format($amount, 2) }} <br>({{$payment_type}})</h4>
                 <p>{{ $description }}</p>
                 <x-rating-bar-show :rating="$ratings"/>
+
+                <livewire:payment.index :paymentFor="'vehicle'" :productId="$vehicleId"/>
             </div>
         </div>
     </div>

@@ -38,8 +38,8 @@ class Vehicle extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function booking()
+    public function bookings()
     {
-        return $this->hasMany(VehicleBooking::class);
+        return $this->hasMany(VehicleBooking::class, 'vehicle_id');
     }
 }

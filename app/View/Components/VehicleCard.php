@@ -8,6 +8,7 @@ use Illuminate\View\Component;
 
 class VehicleCard extends Component
 {
+    public $vehicleId;
     public $img_url;
     public $name;
     public $description;
@@ -18,8 +19,9 @@ class VehicleCard extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct($image, $name, $description, $amount, $payment, $ratings)
+    public function __construct($vehicleId, $image, $name, $description, $amount, $payment, $ratings)
     {
+        $this->vehicleId = $vehicleId;
         $this->img_url = $image;
         $this->name = $name;
         $this->description = $description;
