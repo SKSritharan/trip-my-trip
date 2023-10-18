@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [\App\Http\Controllers\LandingPageController::class, 'index'])->name('home');
-Route::get('/places', [\App\Http\Controllers\PlacesPageController::class, 'index'])->name('places');
+//Route::get('/places', [\App\Http\Controllers\PlacesPageController::class, 'index'])->name('places');
+Route::get('/places', \App\Http\Livewire\Place\View::class)->name('places');
+
 
 Route::controller(\App\Http\Controllers\GuideController::class)->prefix('tourist-guide')->group(function () {
     Route::get('/', 'index')->name('guides');
