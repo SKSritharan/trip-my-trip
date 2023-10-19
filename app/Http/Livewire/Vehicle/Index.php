@@ -33,7 +33,7 @@ class Index extends Component
 
     public function render()
     {
-        $users = User::where('role_id', 2)->get();
+        $users = User::where('role_id', 3)->get();
         if ($this->user_role === 'vehicle') {
             $vehicles = Vehicle::where('owner_id', Auth::user()->id)->search($this->search)->paginate(10);
         } else {

@@ -11,15 +11,32 @@ class Index extends Component
     public $search = '';
     public $user_role;
 
+    public function mount()
+    {
+        // Ensure the user_role is set before applying the checks
+        $user = auth()->user();
+        $this->user_role = $user->role->slug;
+
+        if ($this->user_role === 'vehicle') {
+            if (!($user->vehicle)) {
+                return redirect()->route('manage-vehicles');
+            }
+        } elseif ($this->user_role === 'guide') {
+            if (!($user->guide)) {
+                return redirect()->route('manage-guides');
+            }
+        }
+    }
+
     public function render()
     {
         $bookings = [];
 
-        // Determine user role
-        $user = auth()->user();
-        $this->user_role = $user->role->slug;
-
         // Fetch bookings based on user role
+        $user = auth()->user();
+        // Commented out the following line because the user_role is now being set in the mount method
+        // $this->user_role = $user->role->slug;
+
         if ($this->user_role === 'vehicle') {
             $bookings = VehicleBooking::where('vehicle_id', $user->vehicle->id)
                 ->search($this->search)

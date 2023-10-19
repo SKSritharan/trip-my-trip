@@ -4,6 +4,15 @@
 
 <div class="py-12 px-4">
     <x-wireui-modal.card title="Add a Tourist Guide" blur wire:model.defer="isModalOpen">
+        @if($user_role !== 'guide')
+            <div class="grid grid-cols-1 gap-10 mb-6">
+                <x-wireui-select label="User" wire:model="user_id" placeholder="Select the user">
+                    @foreach($users as $user)
+                        <x-wireui-select.user-option :value="$user->id" :src="empty($user->profile_photo_path) ? 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png' : $user->profile_photo_path" :label="$user->name"/>
+                    @endforeach
+                </x-wireui-select>
+            </div>
+        @endif
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-6">
             <x-wireui-input label="Name" placeholder="Name" wire:model="name"/>
             <x-wireui-native-select
@@ -39,6 +48,9 @@
             <div class="flex items-center justify-between pb-4 bg-white dark:bg-gray-900 px-2">
                 <div>
                     <x-wireui-button primary label="Add a Tourist Guide" wire:click="create"/>
+                </div>
+                <div class="relative">
+                    <x-wireui-input wire:model.live="search" placeholder="Search guides"/>
                 </div>
             </div>
             @if(count($guides) > 0)
