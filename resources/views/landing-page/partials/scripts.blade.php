@@ -19,7 +19,7 @@
         })
 
         var typed = new Typed('.typed-words', {
-            strings: ["San Francisco.", " Paris.", " New Zealand.", " Maui.", " London."],
+            strings: [" Sigiriya.", " Ella.", " Jaffna Fort.", " Adams Peak."],
             typeSpeed: 80,
             backSpeed: 80,
             backDelay: 4000,

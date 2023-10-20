@@ -5,14 +5,12 @@
                 <div class="col-lg-6 mx-auto text-center">
                     <div class="intro-wrap">
                         <h1 class="mb-0">Contact Us</h1>
-                        <p class="text-white">Far far away, behind the word mountains, far from the countries Vokalia
-                            and Consonantia, there live the blind texts. </p>
+                        <p class="text-white">Have any questions or need assistance? Contact our team at Trip My Trip for expert guidance and support. We are here to make your travel experience exceptional.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
     <div class="untree_co-section">
         <div class="container">
@@ -50,19 +48,19 @@
                     <div class="quick-contact-item d-flex align-items-center mb-4">
                         <span class="flaticon-house"></span>
                         <address class="text">
-                            155 Market St #101, Paterson, NJ 07505, United States
+                            73/1, Hospital Road, Jaffna, Sri Lanka
                         </address>
                     </div>
                     <div class="quick-contact-item d-flex align-items-center mb-4">
                         <span class="flaticon-phone-call"></span>
                         <address class="text">
-                            +1 202 2020 200
+                            +94 21 222 2721
                         </address>
                     </div>
                     <div class="quick-contact-item d-flex align-items-center mb-4">
                         <span class="flaticon-mail"></span>
                         <address class="text">
-                            @info@mydomain.com
+                            contact@tripmytrip.com
                         </address>
                     </div>
                 </div>
@@ -70,51 +68,4 @@
         </div>
     </div>
 
-
-    <div class="untree_co-section testimonial-section mt-5 bg-white">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-7 text-center">
-                    <h2 class="section-title text-center mb-5">Testimonials</h2>
-
-                    <div class="owl-single owl-carousel no-nav">
-                        <div class="testimonial mx-auto">
-                            <figure class="img-wrap">
-                                <img src="{{asset('landing-page/images/person_2.jpg')}}" alt="Image" class="img-fluid">
-                            </figure>
-                            <h3 class="name">Adam Aderson</h3>
-                            <blockquote>
-                                <p>&ldquo;There live the blind texts. Separated they live in Bookmarksgrove right at the
-                                    coast of the Semantics, a large language ocean.&rdquo;</p>
-                            </blockquote>
-                        </div>
-
-                        <div class="testimonial mx-auto">
-                            <figure class="img-wrap">
-                                <img src="{{asset('landing-page/images/person_3.jpg')}}" alt="Image" class="img-fluid">
-                            </figure>
-                            <h3 class="name">Lukas Devlin</h3>
-                            <blockquote>
-                                <p>&ldquo;There live the blind texts. Separated they live in Bookmarksgrove right at the
-                                    coast of the Semantics, a large language ocean.&rdquo;</p>
-                            </blockquote>
-                        </div>
-
-                        <div class="testimonial mx-auto">
-                            <figure class="img-wrap">
-                                <img src="{{asset('landing-page/images/person_4.jpg')}}" alt="Image" class="img-fluid">
-                            </figure>
-                            <h3 class="name">Kayla Bryant</h3>
-                            <blockquote>
-                                <p>&ldquo;There live the blind texts. Separated they live in Bookmarksgrove right at the
-                                    coast of the Semantics, a large language ocean.&rdquo;</p>
-                            </blockquote>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
 </x-master-layout>

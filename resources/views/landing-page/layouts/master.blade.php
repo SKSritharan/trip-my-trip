@@ -40,6 +40,8 @@
     <link rel="stylesheet" href="{{asset('./landing-page/css/style.css')}}">
 
     <title>Trip My Trip</title>
+
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/7310/7310018.png">
 </head>
 
 <body>
